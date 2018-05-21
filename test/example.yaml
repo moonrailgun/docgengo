@@ -1,0 +1,12 @@
+host: http://127.0.0.1
+route:
+  user:
+    /user/login:
+      get:
+        title: 测试
+        desc: 测试
+        params:
+          username:
+            type: string
+          password:
+            type: string
