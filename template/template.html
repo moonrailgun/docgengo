@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {{range $groupName, $groupInfo := .Group}}
+      <div class="group">
+        <div class="title">
+          {{ $groupName }}
+        </div>
+        <div class="content">
+          {{range $path, $methods := $groupInfo}}
+            {{range $method, $detail := $methods}}
+              {{if $detail.Title}}
+                <div>
+                  <span class="label">{{$method}}</span>
+                  {{$path}}
+                </div>
+              {{end}}
+            {{end}}
+          {{end}}
+        </div>
+      </div>
+    {{end}}
+  </body>
+</html>
