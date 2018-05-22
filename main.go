@@ -9,15 +9,19 @@ import (
   "gopkg.in/yaml.v2"
   "html/template"
   "bufio"
+  "strings"
 )
 
 type Param struct {
-  Type string `yaml:"type"`
+  Type string `yaml:"type,omitempty"`
+  Default string `yaml:"default,omitempty"`
+  Required bool `yaml:"required,omitempty"`
+  Desc bool `yaml:"desc,omitempty"`
 }
 type Operation struct {
   Title string `yaml:"title"`
   Desc string `yaml:"desc"`
-  Params map[string]Param `yaml:"params"`
+  Params []map[string]Param `yaml:"params"`
 }
 type Route map[string]Operation
 type Group map[string]Route
@@ -57,7 +61,8 @@ func main() {
   if err != nil {
     log.Fatalf("error: %v", err)
   }
-  tpl, err := template.New("dochtml").Parse(string(tplbuf))
+  tplFunc := template.FuncMap{"toUpper": strings.ToUpper}
+  tpl, err := template.New("dochtml").Funcs(tplFunc).Parse(string(tplbuf))
   if err != nil {
     log.Fatalf("error: %v", err)
   }

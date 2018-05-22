@@ -4,9 +4,13 @@ route:
     /user/login:
       get:
         title: 测试
-        desc: 测试
+        desc: 测试描述
         params:
-          username:
-            type: string
-          password:
-            type: string
+          - username:
+              type: text
+              default: ''
+              required: true
+          - password:
+              type: text
+              default: ''
+              required: false

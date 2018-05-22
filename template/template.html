@@ -7,18 +7,35 @@
   <body>
     {{range $groupName, $groupInfo := .Group}}
       <div class="group">
-        <div class="title">
+        <div class="group-title">
           {{ $groupName }}
         </div>
-        <div class="content">
+        <div class="group-content">
           {{range $path, $methods := $groupInfo}}
             {{range $method, $detail := $methods}}
-              {{if $detail.Title}}
-                <div>
-                  <span class="label">{{$method}}</span>
-                  {{$path}}
+              <div class="request">
+                <div class="request-title">
+                  <span class="label">{{toUpper $method}}</span>
+                  <span class="url">{{$path}}</span>
                 </div>
-              {{end}}
+                <div class="request-desc">
+                  <p>{{$detail.Title}}</p>
+                  <p>{{$detail.Desc}}</p>
+                </div>
+                <div class="request-content">
+                  <!-- 参数 -->
+                  {{range $param := $detail.Params}}
+                    {{range $paramName, $paramInfo := $param}}
+                      <p>{{$paramName}}:<input class="{{and $paramInfo.Required "isRequire"}}" type="{{$paramInfo.Type}}" default="{{$paramInfo.Default}}" placeholder="{{$paramInfo.Desc}}" /></p>
+                    {{end}}
+                  {{end}}
+
+                  <button>发送请求</button>
+                </div>
+              </div>
+              <div class="response">
+
+              </div>
             {{end}}
           {{end}}
         </div>
