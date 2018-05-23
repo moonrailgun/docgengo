@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="./app.js"></script>
   </head>
   <body>
     {{range $groupName, $groupInfo := .Group}}
@@ -13,7 +15,7 @@
         <div class="group-content">
           {{range $path, $methods := $groupInfo}}
             {{range $method, $detail := $methods}}
-              <div class="request">
+              <div class="request" data-request="{{$.Host}}{{$path}}" data-method={{$method}}>
                 <div class="request-title">
                   <span class="label">{{toUpper $method}}</span>
                   <span class="url">{{$path}}</span>
@@ -26,7 +28,7 @@
                   <!-- 参数 -->
                   {{range $param := $detail.Params}}
                     {{range $paramName, $paramInfo := $param}}
-                      <p>{{$paramName}}:<input class="{{and $paramInfo.Required "isRequire"}}" type="{{$paramInfo.Type}}" default="{{$paramInfo.Default}}" placeholder="{{$paramInfo.Desc}}" /></p>
+                      <p>{{$paramName}}:<input class="param {{and $paramInfo.Required "is-required"}}" type="{{$paramInfo.Type}}" data-default="{{$paramInfo.Default}}" placeholder="{{or $paramInfo.Desc ""}}" data-key="{{$paramName}}" /></p>
                     {{end}}
                   {{end}}
 

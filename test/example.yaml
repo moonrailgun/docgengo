@@ -1,16 +1,12 @@
-host: http://127.0.0.1
+host: http://180.76.145.64:5020
 route:
   user:
-    /user/login:
+    /user/findByMpNo:
       get:
-        title: 测试
+        title: 根据手机号获取用户
         desc: 测试描述
         params:
-          - username:
+          - mpNo:
               type: text
               default: ''
               required: true
-          - password:
-              type: text
-              default: ''
-              required: false

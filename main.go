@@ -4,6 +4,7 @@ import (
   "fmt"
   "flag"
   "os"
+  "io"
   "io/ioutil"
   "log"
   "gopkg.in/yaml.v2"
@@ -66,8 +67,9 @@ func main() {
   if err != nil {
     log.Fatalf("error: %v", err)
   }
-  tplData := struct { Group map[string]Group } {
+  tplData := T {
     Group: t.Group,
+    Host: t.Host,
   }
 
   // 创建html文件
@@ -84,5 +86,24 @@ func main() {
   writer.Flush()
   fmt.Printf("↑=========\n\n")
 
+  fmt.Printf("复制静态资源:\n↓=========\n")
+  copyFile("template/app.js", "dist/app.js")
+  fmt.Printf("↑=========\n\n")
+
   fmt.Printf("completed!")
+}
+
+func copyFile(srcName, dstName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+      return
+    }
+    defer src.Close()
+    dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
+    if err != nil {
+      return
+    }
+    defer dst.Close()
+    fmt.Printf("复制静态文件: %s...%s\n", srcName, dstName)
+    return io.Copy(dst, src)
 }
